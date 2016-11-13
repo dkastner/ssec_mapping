@@ -1,0 +1,14 @@
+<script type="text/javascript">
+$(function() {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    $('#location_latitude').val(position.coords.latitude);
+    $('#location_longitude').val(position.coords.longitude);
+  });
+});
+</script>
+
+<h1>New Location</h1>
+
+<%= render 'form', location: @location %>
+
+<%= link_to 'Back', locations_path %>
