@@ -1,0 +1,29 @@
+db:
+  image: mdillon/postgis
+  ports:
+    - 5432:5432
+  environment:
+    POSTGRES_DB: assets
+  volumes:
+    - "./postgis:/var/lib/postgresql/data"
+psql:
+  image: mdillon/postgis
+  entrypoint: psql -d assets -h db -U postgres
+  links:
+    - db:db
+  volumes:
+    - "./:/data"
+shptokml:
+  image: geodata/gdal
+  entrypoint: ogr2ogr -f KML
+  links:
+    - db:db
+  volumes:
+    - "./:/data"
+shp2pgsql:
+  image: mdillon/postgis
+  entrypoint: shp2pgsql -s 4326
+  links:
+    - db:db
+  volumes:
+    - "./:/data"
